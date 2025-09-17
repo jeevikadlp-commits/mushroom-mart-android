@@ -8,7 +8,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:8.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
-        // 👇 यह Firebase के लिए जरूरी है
+        // ✅ Firebase Google Services plugin
         classpath 'com.google.gms:google-services:4.3.15'
     }
 }
