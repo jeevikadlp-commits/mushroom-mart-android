@@ -27,7 +27,7 @@ apply plugin: 'com.google.gms.google-services'   // ✅ Firebase plugin
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    namespace "com.example.mushroommart"
+    namespace "com.mushroom.mart"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -45,8 +45,8 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.mushroom.mart"   // ✅ अपना package name डालना
-        minSdkVersion 21                          // ✅ Firebase को minSdkVersion 21 चाहिए
+        applicationId "com.mushroom.mart"
+        minSdkVersion 19
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -59,6 +59,7 @@ android {
         }
     }
 }
+
 
 flutter {
     source '../..'
