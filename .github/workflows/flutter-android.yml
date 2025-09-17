@@ -2,8 +2,7 @@ name: Build Flutter Android APK
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   build:
