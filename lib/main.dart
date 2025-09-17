@@ -1,56 +1,56 @@
-import 'dart:async';
-
-import 'package:dio/dio.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_performance/firebase_performance.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:get_it/get_it.dart';
-
-import 'app.dart';
-import 'env.dart';
-import 'firebase_options.dart';
-import 'utils/http_client.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
-  await runZonedGuarded(
-    () async {
-      final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-      // Retain native splash screen until Dart is ready
-      FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-      GetIt.instance.registerLazySingleton(
-        () => HttpClient(baseOptions: BaseOptions(baseUrl: Env.serverUrl)),
-      );
-      if (!kIsWeb) {
-        if (kDebugMode) {
-          await FirebaseCrashlytics.instance
-              .setCrashlyticsCollectionEnabled(false);
-        } else {
-          await FirebaseCrashlytics.instance
-              .setCrashlyticsCollectionEnabled(true);
-        }
-      }
-      if (kDebugMode) {
-        await FirebasePerformance.instance
-            .setPerformanceCollectionEnabled(false);
-      }
-      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  WidgetsFlutterBinding.ensureInitialized();
 
-      ErrorWidget.builder = (FlutterErrorDetails error) {
-        Zone.current.handleUncaughtError(error.exception, error.stack!);
-        return ErrorWidget(error.exception);
-      };
-
-      runApp(const MyApp());
-      FlutterNativeSplash.remove(); // Now remove splash screen
-    },
-    (exception, stackTrace) {
-      FirebaseCrashlytics.instance.recordError(exception, stackTrace);
-    },
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyD7jAifxXQfa5vjthoYWJBtkimdk3ozFFw",
+      appId: "1:959002796102:web:3e75e3ea078663912a2a47",
+      messagingSenderId: "959002796102",
+      projectId: "studio-1995531473-9005c",
+      storageBucket: "studio-1995531473-9005c.appspot.com",
+    ),
   );
+
+  runApp(const MushroomMartApp());
+}
+
+class MushroomMartApp extends StatelessWidget {
+  const MushroomMartApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Mushroom Mart',
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Mushroom Mart')),
+        body: const ProductList(),
+      ),
+    );
+  }
+}
+
+class ProductList extends StatelessWidget {
+  const ProductList({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('products').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+        final docs = snapshot.data!.docs;
+        return ListView(
+          children: docs.map((d) {
+            final data = d.data() as Map<String, dynamic>;
+            return ListTile(
+              title: Text(data['name'] ?? 'No name'),
+              subtitle: Text('₹${data['price'] ?? ''}'),
+            );
+          }).toList(),
+        );
+      },
+    );
+  }
 }
