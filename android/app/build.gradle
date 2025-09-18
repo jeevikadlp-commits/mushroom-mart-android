@@ -1,10 +1,9 @@
-apply plugin: "com.android.application"
-apply plugin: "kotlin-android"
-apply plugin: "com.google.gms.google-services"
-
-// Flutter gradle plugin को load करने के लिए
-def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
-apply from: "$flutterProjectRoot/packages/flutter_tools/gradle/flutter.gradle"
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'dev.flutter.flutter-gradle-plugin'
+    id 'com.google.gms.google-services' // Firebase integration
+}
 
 android {
     namespace "com.mushroom.mart"
@@ -16,40 +15,17 @@ android {
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
-    }
-
-    signingConfigs {
-        debug {
-            storeFile file("debug.keystore")
-            storePassword "android"
-            keyAlias "androiddebugkey"
-            keyPassword "android"
-        }
+        multiDexEnabled true
     }
 
     buildTypes {
         release {
             signingConfig signingConfigs.debug
         }
-        debug {
-            signingConfig signingConfigs.debug
-        }
     }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
-flutter {
-    source '../..'
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.multidex:multidex:2.0.1"
 }
