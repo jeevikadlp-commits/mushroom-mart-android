@@ -1,7 +1,10 @@
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "com.google.gms.google-services"
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+// Flutter gradle plugin को load करने के लिए
+def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
+apply from: "$flutterProjectRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     namespace "com.mushroom.mart"
@@ -27,7 +30,9 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.debug
-            // अगर future में release keystore add करना हो तो यहां कर सकते हैं
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
 
