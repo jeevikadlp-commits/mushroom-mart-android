@@ -1,21 +1,18 @@
-plugins {
-    id "com.android.application"
-    id "kotlin-android"
-    id "dev.flutter.flutter-gradle-plugin"
-    id "com.google.gms.google-services" // Firebase के लिए
-}
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "com.google.gms.google-services"
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     namespace "com.mushroom.mart"
-    compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.mushroom.mart"
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        minSdkVersion 21
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0"
     }
 
     signingConfigs {
@@ -30,6 +27,7 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.debug
+            // अगर future में release keystore add करना हो तो यहां कर सकते हैं
         }
     }
 
@@ -44,7 +42,7 @@ android {
 }
 
 flutter {
-    source "../.."
+    source '../..'
 }
 
 dependencies {
