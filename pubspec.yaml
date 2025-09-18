@@ -1,6 +1,6 @@
 name: mushroom_mart
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: 'none' # अगर तुम pub.dev पर publish नहीं करना चाहते
 
 version: 1.0.0+1
 
@@ -8,10 +8,6 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
-
-  # dependencies:
   flutter:
     sdk: flutter
 
@@ -27,13 +23,12 @@ dependencies:
   # Firebase Storage
   firebase_storage: ^13.0.1
 
-  # UI / Utils
-  cupertino_icons: ^1.0.6
+  cupertino_icons: ^1.0.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^3.0.2
 
 flutter:
   uses-material-design: true
